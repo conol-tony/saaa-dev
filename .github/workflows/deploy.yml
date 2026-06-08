@@ -28,7 +28,9 @@ jobs:
         run: npm run build
 
       - name: Clean up stale wrangler cache
-        run: rm -rf .wrangler
+        run: |
+          rm -rf .wrangler
+          rm -f dist/client/wrangler.json
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
@@ -37,4 +39,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy dist/server/server.js --name=saaa-dev --compatibility-date=2025-01-01 --compatibility-flags=nodejs_compat --assets=dist/client
+          command: deploy
