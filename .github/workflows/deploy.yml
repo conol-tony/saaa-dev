@@ -16,20 +16,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check environment
-        run: |
-          node --version
-          npm --version
-
       - name: Install dependencies
-        run: npm ci 2>&1 || (npm ci 2>&1 | tee /tmp/npm-ci-error.txt && cat /tmp/npm-ci-error.txt && exit 1)
-
-      - name: Upload npm error log
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: npm-error-log
-          path: /tmp/npm-ci-error.txt
+        run: npm ci
 
       - name: Build
         run: npm run build
@@ -38,7 +26,11 @@ jobs:
         run: |
           rm -rf .wrangler
           rm -f dist/client/wrangler.json
-          npx wrangler deploy
+          npx wrangler deploy dist/server/server.js --name saaa-dev \
+            --compatibility-date 2025-01-01 \
+            --compatibility-flags nodejs_compat \
+            --assets dist/client \
+            --no-bundle
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
