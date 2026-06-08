@@ -20,10 +20,16 @@ jobs:
         run: |
           node --version
           npm --version
-          cat /etc/os-release | head -3
 
       - name: Install dependencies
-        run: npm ci --verbose 2>&1
+        run: npm ci 2>&1 || (npm ci 2>&1 | tee /tmp/npm-ci-error.txt && cat /tmp/npm-ci-error.txt && exit 1)
+
+      - name: Upload npm error log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-error-log
+          path: /tmp/npm-ci-error.txt
 
       - name: Build
         run: npm run build
