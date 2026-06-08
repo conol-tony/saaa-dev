@@ -29,8 +29,7 @@ jobs:
           npx wrangler deploy dist/server/server.js --name saaa-dev \
             --compatibility-date 2025-01-01 \
             --compatibility-flags nodejs_compat \
-            --assets dist/client \
-            --no-bundle
+            --assets dist/client
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
