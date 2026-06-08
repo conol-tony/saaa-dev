@@ -16,8 +16,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check environment
+        run: |
+          node --version
+          npm --version
+          cat /etc/os-release | head -3
+
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --verbose 2>&1
 
       - name: Build
         run: npm run build
@@ -26,7 +32,7 @@ jobs:
         run: |
           rm -rf .wrangler
           rm -f dist/client/wrangler.json
-          npx wrangler deploy --log-level debug 2>&1 || (echo "WRANGLER EXIT CODE: $?" && exit 1)
+          npx wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
