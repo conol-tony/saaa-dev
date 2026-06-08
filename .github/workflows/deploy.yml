@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Deploy to Cloudflare Workers
 
 on:
   push:
@@ -27,16 +27,14 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Clean up wrangler artifacts
-        run: |
-          rm -f dist/client/wrangler.json
-          rm -rf .wrangler
+      - name: Clean up stale wrangler cache
+        run: rm -rf .wrangler
 
-      - name: Deploy to Cloudflare Pages
+      - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist/client --project-name=saaa-dev --branch=main
+          command: deploy dist/server/server.js --name=saaa-dev --compatibility-date=2025-01-01 --compatibility-flags=nodejs_compat --assets=dist/client
