@@ -303,7 +303,14 @@ function Hero() {
           animationDelay: '550ms',
         }}
       >
-        <CodeSnippet />
+        <pre style={{ margin: 0, overflowX: 'auto', lineHeight: 1.6 }}><code>
+{`const fn = `}<span style={{ color: 'var(--code-blue)' }}>saaa</span>{`.fn(`}<span style={{ color: 'var(--code-blue)' }}>async</span>{` (`}<span style={{ color: 'var(--code-amber)' }}>name</span>{`: `}<span style={{ color: 'var(--code-green)' }}>string</span>{`) => {`}
+{`\n  `}<span style={{ color: 'var(--code-blue)' }}>return</span>{` { greeting: `}<span style={{ color: 'var(--code-amber)' }}>{`\`Hello, \${name}!\``}</span>{` }`}
+{`\n})\n`}
+<span style={{ color: 'var(--text-soft)' }}>{`// Instantly callable via HTTP:`}</span>
+{`\n`}<span style={{ color: 'var(--text-soft)' }}>{`// POST https://saaa.dev/fn/hello`}</span>
+{`\n`}<span style={{ color: 'var(--text-soft)' }}>{`// { "args": ["world"] }`}</span>
+        </code></pre>
       </div>
     </section>
   )
