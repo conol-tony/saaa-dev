@@ -16,24 +16,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js 22
-        run: |
-          node --version
-          npm --version
-
       - name: Install dependencies
         run: npm ci
 
       - name: Build
         run: npm run build
 
-      - name: Clean up stale wrangler cache
+      - name: Deploy to Cloudflare Workers
         run: |
           rm -rf .wrangler
           rm -f dist/client/wrangler.json
-
-      - name: Deploy to Cloudflare Workers
-        run: npx wrangler deploy
+          npx wrangler deploy --log-level debug 2>&1 || (echo "WRANGLER EXIT CODE: $?" && exit 1)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
