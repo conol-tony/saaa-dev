@@ -27,8 +27,10 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Remove wrangler.json from dist (avoid config conflict)
-        run: rm -f dist/client/wrangler.json
+      - name: Clean up wrangler artifacts
+        run: |
+          rm -f dist/client/wrangler.json
+          rm -rf .wrangler
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
